@@ -24,6 +24,12 @@
 
 import Foundation
 
+extension DateFormatter {
+    static let sharedRFC822 = RFC822DateFormatter()
+    static let sharedRFC3999 = RFC3339DateFormatter()
+    static let sharedISO8601 = ISO8601DateFormatter()
+}
+
 extension String {
     
     /// Attempts to convert the textual representation of a date with
@@ -33,9 +39,9 @@ extension String {
     /// - Returns: A `Date` object, or nil if the conversion failed.
     func toDate(from spec: DateSpec) -> Date? {
         switch spec {
-        case .rfc822:   return RFC822DateFormatter().date(from: self)
-        case .rfc3999:  return RFC3339DateFormatter().date(from: self)
-        case .iso8601:  return ISO8601DateFormatter().date(from: self)
+        case .rfc822:   return DateFormatter.sharedRFC822.date(from: self)
+        case .rfc3999:  return DateFormatter.sharedRFC3999.date(from: self)
+        case .iso8601:  return DateFormatter.sharedISO8601.date(from: self)
         }
     }
     
@@ -44,9 +50,9 @@ extension String {
     ///
     /// - Returns: A `Date` object, or nil if the conversion failed.
     func toPermissiveDate() -> Date? {
-        return RFC822DateFormatter().date(from: self) ??
-            (RFC3339DateFormatter().date(from: self) ??
-            ISO8601DateFormatter().date(from: self))
+        return DateFormatter.sharedRFC822.date(from: self) ??
+            (DateFormatter.sharedRFC3999.date(from: self) ??
+             DateFormatter.sharedISO8601.date(from: self))
     }
     
 }
