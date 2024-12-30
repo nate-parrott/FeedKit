@@ -28,6 +28,11 @@ extension DateFormatter {
     static let sharedRFC822 = RFC822DateFormatter()
     static let sharedRFC3999 = RFC3339DateFormatter()
     static let sharedISO8601 = ISO8601DateFormatter()
+    static let sharedyyyyMMdd: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
 }
 
 extension String {
@@ -50,9 +55,11 @@ extension String {
     ///
     /// - Returns: A `Date` object, or nil if the conversion failed.
     func toPermissiveDate() -> Date? {
-        return DateFormatter.sharedRFC822.date(from: self) ??
-            (DateFormatter.sharedRFC3999.date(from: self) ??
-             DateFormatter.sharedISO8601.date(from: self))
+        if let date = DateFormatter.sharedRFC822.date(from: self) return date;
+        if let date = DateFormatter.sharedRFC3999.date(from: self) return date;
+        if let date = DateFormatter.sharedISO8601.date(from: self) return date;
+        if let date = DateFormatter.sharedyyyyMMdd.date(from: self) return date;
+        return nil
     }
     
 }
