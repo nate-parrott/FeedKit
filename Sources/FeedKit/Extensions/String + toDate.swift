@@ -55,10 +55,10 @@ extension String {
     ///
     /// - Returns: A `Date` object, or nil if the conversion failed.
     func toPermissiveDate() -> Date? {
-        if let date = DateFormatter.sharedRFC822.date(from: self) return date;
-        if let date = DateFormatter.sharedRFC3999.date(from: self) return date;
-        if let date = DateFormatter.sharedISO8601.date(from: self) return date;
-        if let date = DateFormatter.sharedyyyyMMdd.date(from: self) return date;
+        if let date = DateFormatter.sharedRFC822.date(from: self) { return date }
+        if let date = DateFormatter.sharedRFC3999.date(from: self) { return date }
+        if let date = DateFormatter.sharedISO8601.date(from: self) { return date }
+        if let date = DateFormatter.sharedyyyyMMdd.date(from: self) { return date }
         return nil
     }
     
